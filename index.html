@@ -35,6 +35,38 @@
   </div>
 
 <script>
+  const slider = document.querySelector('.items');
+  let isDown = false;
+  // records where on page user initially clicks down
+  let startX;
+  let scrollLeft;
+
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    slider.classList.add('active');
+    // console.log(e);
+    // subtract slider offset to record where mousedown happens inside element, not whole page
+    startX = e.pageX - slider.offsetLeft;
+    // records where initial scroll is when page isn't at beginning
+    scrollLeft = slider.scrollLeft;
+    console.log(scrollLeft);
+  })
+  slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('active')
+  })
+  slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('active')
+  })
+  slider.addEventListener('mousemove', (e) => {
+    if(!isDown) return; // stop function from running
+    e.preventDefault();
+    // recalculates every time mouse moves
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 2;
+    slider.scrollLeft = scrollLeft - walk;
+  })
 </script>
 
   </body>
